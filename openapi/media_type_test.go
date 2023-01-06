@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"github.com/sasswart/gin-in-a-can/render"
 	"github.com/sasswart/gin-in-a-can/test"
 	"reflect"
 	"testing"
@@ -9,7 +8,7 @@ import (
 
 func TestMediaType_GetName(t *testing.T) {
 	openAPI, _ := LoadOpenAPI(test.AbsOpenAPI)
-	SetRenderer(openAPI, render.GinRenderer{})
+	SetRenderer(openAPI, GinRenderer{})
 	mt := Dig(openAPI, test.Endpoint, test.Method, test.ReqBody, test.MediaType)
 	name := mt.GetName()
 	if name != test.GinRenderedMediaItemName {

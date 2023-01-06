@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"github.com/sasswart/gin-in-a-can/render"
 	"github.com/sasswart/gin-in-a-can/test"
 	"reflect"
 	"testing"
@@ -9,11 +8,11 @@ import (
 
 func TestPathItem_GetName(t *testing.T) {
 	openapi, _ := LoadOpenAPI(test.OpenAPIFile)
-	SetRenderer(openapi, render.GinRenderer{})
+	SetRenderer(openapi, GinRenderer{})
 	path := Dig(openapi, test.Endpoint)
 	if path.getRenderer() == nil {
 		t.Log("Renderer is nil, setting render manually")
-		path.setRenderer(render.GinRenderer{})
+		path.setRenderer(GinRenderer{})
 	}
 	if path.GetName() != test.GinRenderedPathItemName {
 		t.Errorf("got %v, expected %v", path.GetName(), test.GinRenderedPathItemName)
@@ -44,8 +43,8 @@ func TestPathItem_Operations(t *testing.T) {
 func TestPathItem_SetRenderer(t *testing.T) {
 	openapi, _ := LoadOpenAPI(test.AbsOpenAPI)
 	for _, path := range openapi.getChildren() {
-		path.setRenderer(render.GinRenderer{})
-		GinRenderer := render.GinRenderer{}
+		path.setRenderer(GinRenderer{})
+		GinRenderer := GinRenderer{}
 		if !reflect.DeepEqual(path.getRenderer(), GinRenderer) {
 			t.Errorf("SetRenderer(GinRenderer{}) was unsuccessful")
 		}
@@ -67,7 +66,7 @@ func TestPathItem_GetParent(t *testing.T) {
 		parent := path.GetParent()
 		_, ok := parent.(*OpenAPI)
 		if !ok {
-			t.Errorf("PathItem.GetParent() did not return an OpenAPI type")
+			t.Errorf("PathItem.GetParent() did not return an OpenAPIFile type")
 		}
 	}
 }

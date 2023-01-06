@@ -8,12 +8,10 @@ import (
 )
 
 type Renderer interface {
+	// TODO remove this interface
 	SanitiseName(string) string
 	SanitiseType(*Schema) string
 	GetOutputFile(Traversable) string
-}
-type Config struct {
-	OpenAPIFile string
 }
 
 // OpenAPI is a programmatic representation of the OpenApi Document object defined here: https://swagger.io/specification/#openapi-object
@@ -123,7 +121,7 @@ func (o *OpenAPI) setChild(i string, child Traversable) {
 		o.Paths[i] = c
 		return
 	}
-	panic("(o *OpenAPI) setChild:" + errCastFail)
+	panic("(o *OpenAPIFile) setChild:" + errCastFail)
 }
 
 // resolveRefs calls readRef on references with the ref path modified appropriately for it's use

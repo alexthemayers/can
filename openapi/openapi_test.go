@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"github.com/sasswart/gin-in-a-can/render"
 	"github.com/sasswart/gin-in-a-can/test"
 	"path/filepath"
 	"reflect"
@@ -20,7 +19,7 @@ func TestOpenAPI_LoadOpenAPI(t *testing.T) {
 
 func TestOpenAPI_SetRenderer(t *testing.T) {
 	openapi, _ := LoadOpenAPI(test.AbsOpenAPI)
-	render.SetRenderer(openapi, render.GinRenderer{})
+	SetRenderer(openapi, GinRenderer{})
 
 	//Check *PathItem
 	paths := openapi.getChildren()
@@ -187,7 +186,7 @@ func TestOpenAPI_SetChild(t *testing.T) {
 
 func TestOpenAPI_GetName(t *testing.T) {
 	openapi, _ := LoadOpenAPI(test.AbsOpenAPI)
-	render.SetRenderer(openapi, render.GinRenderer{})
+	SetRenderer(openapi, GinRenderer{})
 	name := openapi.GetName()
 	if name != test.GinRenderedOpenAPIName {
 		t.Errorf("wanted %s, got %s", test.GinRenderedOpenAPIName, name)

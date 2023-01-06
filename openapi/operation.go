@@ -64,7 +64,7 @@ func (o *Operation) setChild(i string, child Traversable) {
 		o.Responses[i] = response
 		return
 	default:
-		panic("(o *OpenAPI) setChild(): " + errCastFail)
+		panic("(o *OpenAPIFile) setChild(): " + errCastFail)
 	}
 }
 

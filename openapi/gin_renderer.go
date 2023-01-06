@@ -1,18 +1,15 @@
-package render
+package openapi
 
 import (
-	"github.com/sasswart/gin-in-a-can/openapi"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"path/filepath"
 	"strings"
 )
 
-var _ Renderer = GinRenderer{}
-
 type GinRenderer struct{}
 
-func (g GinRenderer) SanitiseType(s *openapi.Schema) string {
+func (g GinRenderer) SanitiseType(s *Schema) string {
 	switch s.Type {
 	case "boolean":
 		return "bool"
@@ -72,12 +69,12 @@ func (g GinRenderer) SanitiseName(s string) string {
 	return strings.Join(nameSegments, "")
 }
 
-func (g GinRenderer) GetOutputFile(t openapi.Traversable) string {
+func (g GinRenderer) GetOutputFile(t Traversable) string {
 	var dir string
 	switch t.(type) {
-	case *openapi.OpenAPI:
+	case *OpenAPI:
 		dir = ""
-	case *openapi.Schema:
+	case *Schema:
 		dir = "models"
 	}
 	return filepath.Join(dir, t.GetName()+".go")

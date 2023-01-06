@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/sasswart/gin-in-a-can/config"
-	"github.com/sasswart/gin-in-a-can/render"
 	"os"
 	"path/filepath"
 
@@ -26,7 +25,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = openapi.SetRenderer(apiSpec, render.GinRenderer{})
+	err = openapi.SetRenderer(apiSpec, openapi.GinRenderer{})
 	if err != nil {
 		fmt.Println(fmt.Errorf("openapi.SetRenderer error: %w", err))
 		os.Exit(1)
@@ -65,7 +64,7 @@ func buildRenderNode(config config.Config) openapi.TraversalFunc {
 		if templateFileName == "" {
 			return child, nil
 		}
-		_, err := render.Render(config, child, templateFileName)
+		_, err := openapi.Render(config, child, templateFileName)
 		if err != nil {
 			return child, err
 		}
@@ -75,23 +74,23 @@ func buildRenderNode(config config.Config) openapi.TraversalFunc {
 }
 
 // absoluteOpenAPIFile uses the current working directory, resolved config file and the openAPI file that was specified
-// in the config file to determine the absolute path to and OpenAPI file. It takes into account that any of these,
+// in the config file to determine the absolute path to and OpenAPIFile file. It takes into account that any of these,
 // except the working directory could be relative.
 func absoluteOpenAPIFile(config config.Config) string {
 	var absoluteOpenAPIFile string
-	if filepath.IsAbs(config.OpenAPI.OpenAPIFile) {
-		absoluteOpenAPIFile = config.OpenAPI.OpenAPIFile
+	if filepath.IsAbs(config.OpenAPIFile.OpenAPIFile) {
+		absoluteOpenAPIFile = config.OpenAPIFile.OpenAPIFile
 	} else {
 		if filepath.IsAbs(config.ConfigFilePath) {
 			absoluteOpenAPIFile = filepath.Join(
 				filepath.Dir(config.ConfigFilePath),
-				config.OpenAPI.OpenAPIFile,
+				config.OpenAPIFile.OpenAPIFile,
 			)
 		} else {
 			absoluteOpenAPIFile = filepath.Join(
 				config.WorkingDirectory,
 				filepath.Dir(config.ConfigFilePath),
-				config.OpenAPI.OpenAPIFile,
+				config.OpenAPIFile.OpenAPIFile,
 			)
 		}
 	}

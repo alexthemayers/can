@@ -3,17 +3,19 @@ package config
 import (
 	"flag"
 	"fmt"
-	"github.com/sasswart/gin-in-a-can/openapi"
 	"github.com/spf13/viper"
 	"os"
 )
 
 type Config struct {
 	Generator        GeneratorConfig
-	OpenAPI          openapi.Config
+	OpenAPIFile      OpenApiConfig
 	OutputPath       string
 	WorkingDirectory string
 	ConfigFilePath   string
+}
+type OpenApiConfig struct {
+	OpenAPIFile string
 }
 
 type GeneratorConfig struct {

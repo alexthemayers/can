@@ -1,11 +1,10 @@
-package render
+package openapi
 
 import (
 	"bytes"
 	"errors"
 	"fmt"
 	"github.com/sasswart/gin-in-a-can/config"
-	"github.com/sasswart/gin-in-a-can/openapi"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"os"
@@ -14,14 +13,8 @@ import (
 	"text/template"
 )
 
-type Renderer interface {
-	SanitiseName(string) string
-	SanitiseType(*openapi.Schema) string
-	GetOutputFile(openapi.Traversable) string
-}
-
 // Render is the main parsing and rendering steps within the render library
-func Render(config config.Config, data openapi.Traversable, templateFileName string) ([]byte, error) {
+func Render(config config.Config, data Traversable, templateFileName string) ([]byte, error) {
 	buff := bytes.NewBuffer([]byte{})
 
 	templater := template.New(templateFileName)
@@ -71,8 +64,8 @@ func Render(config config.Config, data openapi.Traversable, templateFileName str
 		)
 	}
 	absoluteOutputFile = filepath.Join(absoluteOutputFile, data.GetOutputFile())
-	
-	fmt.Printf("Rendering %s using %s\n", data.GetOutputFile(), templateFile)
+
+	fmt.Printf("Rendering %s using %s\n", data.GetOutputFile(), templateFileName)
 
 	outputDirectory := filepath.Dir(absoluteOutputFile)
 	if _, err := os.Stat(outputDirectory); errors.Is(err, os.ErrNotExist) {
