@@ -53,7 +53,8 @@ func buildRenderNode(config config.Config) openapi.TraversalFunc {
 		case *openapi.PathItem:
 			templateFileName = "path_item.tmpl"
 		case *openapi.Schema:
-			if child.(*openapi.Schema).Type != "object" {
+			schemaType := child.(*openapi.Schema).Type
+			if schemaType != "object" && schemaType != "array" {
 				return child, nil
 			}
 			templateFileName = "schema.tmpl"
